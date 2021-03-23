@@ -3,13 +3,15 @@ const CustomError = require("../extensions/custom-error");
 module.exports = function createDreamTeam(array) {
   //throw new CustomError('Not implemented');
   // remove line with error and write your code here
-  for(let i = 0; i < array.length; i++) {
-    if(typeof array !== 'string') {
-      let item = array[i];
-      array.splice(item, 1);
-    } else {
-      array[i] = item[0];
-    }
+  let result = [];
+  if(!Array.isArray(array)) {
+    return false;
   }
-  return array.sort().join('');
+  array.forEach(el => {
+    if(typeof(el) === 'string') {
+      el = el.trim().slice(0,1).toUpperCase();
+      result.push(el);
+    }
+  });
+  return result.sort().join('');
 };
