@@ -3,35 +3,42 @@ const CustomError = require("../extensions/custom-error");
 module.exports = function transform(arr) {
   //throw new CustomError('Not implemented');
   // remove line with error and write your code here
-  let result = [];
-  if(!Array.isArray(arr) || (arr.length <= 1)) {
+  if(!Array.isArray(arr)) {
     throw new Error('Error');
   }
 
-  arr.forEach(el => {
-    if(typeof(el) !== 'number') {
-      switch (el) {
-        case '--discard-next':
-          if(arr.indexOf(el) != 0) {
-            
+  let result = [];
+
+  for(let i = 0; i < arr.length; i++) {
+    switch(arr[i]) {
+      case '--discard-next' :
+        if(i !== arr.length - 1) {
+          i++;
+        }
+      break;
+      case '--discard-prev' :
+        if(i !== 0) {
+          if(arr[i-2] !== '--discard-next') {
+            result.pop();
           }
-        break;
-        case '--discard-prev':
-          if(result.indexOf(el) !== 0) {
-            result.splice(result.indexOf(el) - 1, 2);
+        }
+      break;
+      case '--double-next' :
+        if(i !== arr.length - 1) {
+          result.push(arr[i+1]);
+        }
+      break;
+      case '--double-prev' :
+        if(i !== 0) {
+          if(arr[i-2] !== '--discard-next') {
+            result.push(arr[i-1]);
           }
-          result.splice(result.indexOf(el), 1);
-        break;
-        case '--double-next':
-          result.splice(result.indexOf(el), 1, result[result.indexOf(el) + 1]);
-        break;
-        case '--double-prev':
-          result.splice(result.indexOf(el), 1, result[result.indexOf(el) - 1]);
-        break;
-        default:
-          return arr;
-      }
+        } 
+      break;
+      default:
+        result.push(arr[i]);
+      break;
     }
-  });
-   return result;
+  }
+  return result;
 };
