@@ -27,7 +27,7 @@ module.exports = function repeater(str, options) {
   if(!options.separator) {
     options.separator = '+';
   }
-  
+
   if(!String(options.separator)) {
     options.separator = String(options.separator);
   }
@@ -52,9 +52,4 @@ module.exports = function repeater(str, options) {
     return result.join('');
   //throw new CustomError('Not implemented');
   // remove line with error and write your code here
-
-
-
-
-
 };
